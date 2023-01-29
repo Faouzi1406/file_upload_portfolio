@@ -28,15 +28,16 @@ func fileUploading(c *fiber.Ctx) error {
   file := new (File);
   apiKey := os.Getenv("apikey");
 
-  if file.ApiKey != apiKey {
-    return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-      "auth":"Unauthorized",
-    })
-  }
 
   if err := c.BodyParser(file); err != nil  {
     return c.Status(fiber.StatusUnprocessableEntity).JSON(fiber.Map{
       "error": err.Error(),
+    })
+  }
+
+  if file.ApiKey != apiKey {
+    return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+      "auth":"Unauthorized",
     })
   }
   
