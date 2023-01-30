@@ -4,6 +4,7 @@ import (
 	"encoding/base64"
 	"fmt"
 	"os"
+	"strings"
 
 	env "github.com/Faouzi1406/learning/env"
 	"github.com/gofiber/fiber/v2"
@@ -49,7 +50,7 @@ func fileUploading(c *fiber.Ctx) error {
     });
   } 
 
-  fileName := fmt.Sprint("images/",file.FileName);
+  fileName := fmt.Sprint("images/", strings.ReplaceAll(file.FileName, " ", ""));
   f, err := os.Create(fileName);
   
   if err != nil {
@@ -93,7 +94,7 @@ func main() {
   app.Get("/getfile/:slug", func(c *fiber.Ctx) error {
     param := c.Params("slug");
     folder := os.Getenv("FOLDER");
-    param_with_value := fmt.Sprint(folder, param);
+    param_with_value := fmt.Sprint(folder, strings.ReplaceAll(param, "%20", ""));
     fmt.Println(param_with_value)
 
     return c.SendFile(param_with_value); 
@@ -103,5 +104,5 @@ func main() {
     return fileUploading(c);
   });
 
-  app.Listen(":3000")
+  app.Listen(":4000")
 }

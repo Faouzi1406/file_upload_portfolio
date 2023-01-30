@@ -8,5 +8,5 @@ RUN go mod download && go mod verify
 COPY . .
 RUN go build 
 
-EXPOSE 3000
+EXPOSE 4000 
 CMD [ "./learning" ]
